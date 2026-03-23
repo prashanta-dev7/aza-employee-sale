@@ -650,6 +650,277 @@ body {
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
 .card { animation: fadeUp 0.25s ease both; }
 
+
+/* ── MOBILE RESPONSIVE ─────────────────────────────────────────── */
+
+/* Mobile filter drawer */
+.mobile-filter-bar {
+  display: none;
+  position: sticky;
+  top: 60px;
+  z-index: 98;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  height: 48px;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mobile-filter-bar::-webkit-scrollbar { display: none; }
+
+.mobile-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.mobile-filter-btn.active {
+  background: var(--text);
+  border-color: var(--text);
+  color: white;
+}
+.mobile-filter-btn svg { flex-shrink: 0; }
+
+/* Mobile filter sheet (bottom drawer) */
+.filter-sheet-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 400;
+  align-items: flex-end;
+}
+.filter-sheet-backdrop.open { display: flex; }
+
+.filter-sheet {
+  background: var(--white);
+  width: 100%;
+  max-height: 85vh;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.filter-sheet-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.filter-sheet-close {
+  background: var(--light);
+  border: none;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.filter-sheet-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0 20px 20px;
+}
+
+.sheet-section {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.sheet-section:last-child { border-bottom: none; }
+
+.sheet-section-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.sheet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sheet-chip {
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: var(--white);
+  transition: all 0.15s;
+}
+.sheet-chip.active {
+  background: var(--text);
+  border-color: var(--text);
+  color: white;
+}
+
+.sheet-size-chips { gap: 6px; }
+.sheet-size-chip {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: var(--white);
+  min-width: 40px;
+  text-align: center;
+  transition: all 0.15s;
+}
+.sheet-size-chip.active {
+  background: var(--text);
+  border-color: var(--text);
+  color: white;
+}
+
+.filter-sheet-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.sheet-apply-btn {
+  flex: 1;
+  background: var(--text);
+  color: white;
+  border: none;
+  padding: 13px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.sheet-clear-btn {
+  flex: 1;
+  background: var(--white);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 13px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+/* Mobile search bar */
+.mobile-search-bar {
+  display: none;
+  padding: 10px 16px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 108px;
+  z-index: 97;
+}
+.mobile-search-bar .search-wrap { width: 100%; }
+.mobile-search-bar .search-input { width: 100%; }
+
+@media (max-width: 768px) {
+  /* Hide desktop filter bar */
+  .filter-bar { display: none !important; }
+  .active-filters { display: none !important; }
+
+  /* Show mobile elements */
+  .mobile-filter-bar { display: flex; }
+  .mobile-search-bar { display: block; }
+
+  /* Header */
+  .header { padding: 0 16px; height: 52px; }
+  .header-center { display: none; }
+  .logo img { height: 24px; }
+
+  /* Admin banner */
+  .admin-banner { top: 52px; padding: 8px 16px; font-size: 10px; }
+  .admin-banner.show ~ .mobile-filter-bar { top: calc(52px + 36px); }
+
+  /* Topbar */
+  .topbar { font-size: 10px; padding: 6px 12px; }
+
+  /* Grid - 2 columns on mobile */
+  .grid-wrap { padding: 12px; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 1px; }
+
+  /* Cards */
+  .card-info { padding: 8px 8px 12px; }
+  .card-designer { font-size: 9px; }
+  .card-title { font-size: 13px; }
+  .card-ids { display: none; }
+  .price-mrp { display: none; }
+
+  /* Modal - full screen on mobile */
+  .modal-backdrop { padding: 0; align-items: flex-end; }
+  .modal {
+    max-width: 100%;
+    max-height: 95vh;
+    flex-direction: column;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+  }
+  .modal-gallery {
+    width: 100%;
+    flex-direction: row;
+    max-height: 55vw;
+  }
+  .modal-main-img { flex: 1; }
+  .modal-main-img img { height: 100%; }
+  .modal-thumbs {
+    width: 64px;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-top: none;
+    border-left: 1px solid var(--border);
+    padding: 4px;
+  }
+  .modal-thumb { width: 52px; height: 64px; }
+  .modal-body { padding: 16px; overflow-y: auto; max-height: 40vh; }
+  .modal-title { font-size: 20px; margin-bottom: 12px; }
+  .modal-close { top: 8px; right: 8px; }
+
+  /* Admin modal */
+  .am-box { width: 90%; border-radius: 8px; }
+}
+
+@media (max-width: 400px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .card-title { font-size: 12px; }
+}
+
 /* close dropdowns when clicking outside */
 </style>
 </head>
@@ -670,6 +941,53 @@ body {
   ✦ Admin Mode — Click ✕ on any card to mark/unmark Sold Out &nbsp;·&nbsp;
   <a onclick="exportSoldOut()">Export Sold Out CSV</a> &nbsp;·&nbsp;
   <a onclick="exitAdmin()">Exit Admin Mode</a>
+</div>
+
+
+<!-- MOBILE SEARCH BAR -->
+<div class="mobile-search-bar">
+  <div class="search-wrap" style="width:100%;">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:absolute;left:9px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--text-light);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input class="search-input" id="mobile-search-input" type="text" placeholder="Search PID, barcode, title…" oninput="onMobileSearch()" style="width:100%;">
+  </div>
+</div>
+
+<!-- MOBILE FILTER BAR -->
+<div class="mobile-filter-bar" id="mobile-filter-bar">
+  <button class="mobile-filter-btn" onclick="openSheet('sort')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+    <span id="mb-sort-label">Sort</span>
+  </button>
+  <button class="mobile-filter-btn" id="mb-cat-btn" onclick="openSheet('cat')">
+    <span id="mb-cat-label">Category</span>
+    <span class="dd-arrow" style="font-size:9px;">▼</span>
+  </button>
+  <button class="mobile-filter-btn" id="mb-sub-btn" onclick="openSheet('sub')">
+    <span id="mb-sub-label">Sub Category</span>
+    <span class="dd-arrow" style="font-size:9px;">▼</span>
+  </button>
+  <button class="mobile-filter-btn" id="mb-size-btn" onclick="openSheet('size')">
+    <span id="mb-size-label">Size</span>
+    <span class="dd-arrow" style="font-size:9px;">▼</span>
+  </button>
+  <button class="mobile-filter-btn" id="mb-so-btn" onclick="toggleSoldOut(); updateMobileLabels();">
+    <span id="mb-so-label">Show Sold Out</span>
+  </button>
+</div>
+
+<!-- FILTER SHEET (bottom drawer) -->
+<div class="filter-sheet-backdrop" id="filter-sheet-backdrop" onclick="closeSheetOnBg(event)">
+  <div class="filter-sheet" id="filter-sheet">
+    <div class="filter-sheet-header">
+      <span class="filter-sheet-title" id="sheet-title">Filters</span>
+      <button class="filter-sheet-close" onclick="closeSheet()">✕</button>
+    </div>
+    <div class="filter-sheet-body" id="sheet-body"></div>
+    <div class="filter-sheet-footer">
+      <button class="sheet-clear-btn" onclick="clearSheetSection()">Clear</button>
+      <button class="sheet-apply-btn" onclick="closeSheet()">Apply</button>
+    </div>
+  </div>
 </div>
 
 <!-- FILTER BAR -->
@@ -1325,6 +1643,188 @@ buildCatDD();
 buildSubDD();
 buildSizeDD();
 applyFilters();
+
+// ── MOBILE ───────────────────────────────────────────────────────
+let currentSheet = null;
+
+function onMobileSearch() {
+  // sync mobile search with desktop state
+  const val = document.getElementById('mobile-search-input').value;
+  const desktopInput = document.getElementById('search-input');
+  if (desktopInput) desktopInput.value = val;
+  applyFilters();
+}
+
+function openSheet(type) {
+  currentSheet = type;
+  const backdrop = document.getElementById('filter-sheet-backdrop');
+  const body = document.getElementById('sheet-body');
+  const title = document.getElementById('sheet-title');
+  body.innerHTML = '';
+
+  if (type === 'sort') {
+    title.textContent = 'Sort By';
+    const sorts = [
+      { val: '', label: 'Default' },
+      { val: 'price-asc', label: 'Price: Low → High' },
+      { val: 'price-desc', label: 'Price: High → Low' },
+      { val: 'discount-desc', label: 'Best Discount' },
+      { val: 'title-asc', label: 'Name A–Z' },
+    ];
+    const sec = document.createElement('div');
+    sec.className = 'sheet-section';
+    const chips = document.createElement('div');
+    chips.className = 'sheet-chips';
+    sorts.forEach(s => {
+      const c = document.createElement('button');
+      c.className = 'sheet-chip' + (state.sort === s.val ? ' active' : '');
+      c.textContent = s.label;
+      c.onclick = () => {
+        state.sort = s.val;
+        document.getElementById('sort-select').value = s.val;
+        chips.querySelectorAll('.sheet-chip').forEach(x => x.classList.remove('active'));
+        c.classList.add('active');
+        applyFilters();
+        updateMobileLabels();
+      };
+      chips.appendChild(c);
+    });
+    sec.appendChild(chips);
+    body.appendChild(sec);
+  }
+
+  else if (type === 'cat') {
+    title.textContent = 'Category';
+    const cats = [...new Set(PRODUCTS.map(p => p.category).filter(Boolean))].sort();
+    const sec = document.createElement('div');
+    sec.className = 'sheet-section';
+    const chips = document.createElement('div');
+    chips.className = 'sheet-chips';
+    cats.forEach(cat => {
+      const cnt = countFor('category', cat);
+      const c = document.createElement('button');
+      c.className = 'sheet-chip' + (state.category === cat ? ' active' : '');
+      c.textContent = cat + ' (' + cnt + ')';
+      c.onclick = () => {
+        state.category = state.category === cat ? '' : cat;
+        state.subCategory = '';
+        chips.querySelectorAll('.sheet-chip').forEach(x => x.classList.remove('active'));
+        if (state.category === cat) c.classList.add('active');
+        buildSubDD();
+        applyFilters();
+        updateMobileLabels();
+      };
+      chips.appendChild(c);
+    });
+    sec.appendChild(chips);
+    body.appendChild(sec);
+  }
+
+  else if (type === 'sub') {
+    title.textContent = 'Sub Category';
+    let pool = state.category ? PRODUCTS.filter(p => p.category === state.category) : PRODUCTS;
+    const subs = new Set();
+    pool.forEach(p => { if (p.sub_category) p.sub_category.split(',').forEach(s => subs.add(s.trim())); });
+    const sorted = [...subs].sort();
+    const sec = document.createElement('div');
+    sec.className = 'sheet-section';
+    const chips = document.createElement('div');
+    chips.className = 'sheet-chips';
+    sorted.forEach(sc => {
+      const cnt = countFor('subCategory', sc);
+      const c = document.createElement('button');
+      c.className = 'sheet-chip' + (state.subCategory === sc ? ' active' : '');
+      c.textContent = sc + ' (' + cnt + ')';
+      c.onclick = () => {
+        state.subCategory = state.subCategory === sc ? '' : sc;
+        chips.querySelectorAll('.sheet-chip').forEach(x => x.classList.remove('active'));
+        if (state.subCategory === sc) c.classList.add('active');
+        applyFilters();
+        updateMobileLabels();
+      };
+      chips.appendChild(c);
+    });
+    sec.appendChild(chips);
+    body.appendChild(sec);
+  }
+
+  else if (type === 'size') {
+    title.textContent = 'Size';
+    const sizes = [...new Set(PRODUCTS.map(p => p.size).filter(Boolean))].sort(sizeSort);
+    const sec = document.createElement('div');
+    sec.className = 'sheet-section';
+    const chips = document.createElement('div');
+    chips.className = 'sheet-chips sheet-size-chips';
+    sizes.forEach(sz => {
+      const cnt = countFor('size', sz);
+      const c = document.createElement('button');
+      c.className = 'sheet-size-chip' + (state.size === sz ? ' active' : '');
+      c.innerHTML = sz + '<br><span style="font-size:9px;opacity:0.6">' + cnt + '</span>';
+      c.onclick = () => {
+        state.size = state.size === sz ? '' : sz;
+        chips.querySelectorAll('.sheet-size-chip').forEach(x => x.classList.remove('active'));
+        if (state.size === sz) c.classList.add('active');
+        applyFilters();
+        updateMobileLabels();
+      };
+      chips.appendChild(c);
+    });
+    sec.appendChild(chips);
+    body.appendChild(sec);
+  }
+
+  backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSheet() {
+  document.getElementById('filter-sheet-backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+  currentSheet = null;
+}
+
+function closeSheetOnBg(e) {
+  if (e.target === document.getElementById('filter-sheet-backdrop')) closeSheet();
+}
+
+function clearSheetSection() {
+  if (currentSheet === 'cat') { state.category = ''; state.subCategory = ''; buildSubDD(); }
+  else if (currentSheet === 'sub') { state.subCategory = ''; }
+  else if (currentSheet === 'size') { state.size = ''; }
+  else if (currentSheet === 'sort') { state.sort = ''; document.getElementById('sort-select').value = ''; }
+  applyFilters();
+  updateMobileLabels();
+  closeSheet();
+}
+
+function updateMobileLabels() {
+  const catBtn = document.getElementById('mb-cat-btn');
+  const subBtn = document.getElementById('mb-sub-btn');
+  const sizeBtn = document.getElementById('mb-size-btn');
+  const soBtn = document.getElementById('mb-so-btn');
+
+  document.getElementById('mb-cat-label').textContent = state.category || 'Category';
+  catBtn.classList.toggle('active', !!state.category);
+
+  document.getElementById('mb-sub-label').textContent = state.subCategory || 'Sub Category';
+  subBtn.classList.toggle('active', !!state.subCategory);
+
+  document.getElementById('mb-size-label').textContent = state.size ? 'Size: ' + state.size : 'Size';
+  sizeBtn.classList.toggle('active', !!state.size);
+
+  document.getElementById('mb-so-label').textContent = state.showSoldOut ? 'Hide Sold Out' : 'Show Sold Out';
+  soBtn.classList.toggle('active', state.showSoldOut);
+
+  const sortLabels = { '': 'Sort', 'price-asc': 'Price ↑', 'price-desc': 'Price ↓', 'discount-desc': 'Best Discount', 'title-asc': 'A–Z' };
+  document.getElementById('mb-sort-label').textContent = sortLabels[state.sort] || 'Sort';
+}
+
+// sync mobile search on init
+document.addEventListener('DOMContentLoaded', () => {
+  const mobileSearch = document.getElementById('mobile-search-input');
+  if (mobileSearch) mobileSearch.value = state.search || '';
+});
+
 </script>
 </body>
 </html>
