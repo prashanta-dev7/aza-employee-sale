@@ -657,7 +657,7 @@ body {
 .mobile-filter-bar {
   display: none;
   position: sticky;
-  top: 60px;
+  top: 52px;
   z-index: 98;
   background: var(--white);
   border-bottom: 1px solid var(--border);
@@ -844,7 +844,7 @@ body {
   background: var(--white);
   border-bottom: 1px solid var(--border);
   position: sticky;
-  top: 108px;
+  top: 100px;
   z-index: 97;
 }
 .mobile-search-bar .search-wrap { width: 100%; }
@@ -970,7 +970,7 @@ body {
     <span id="mb-size-label">Size</span>
     <span class="dd-arrow" style="font-size:9px;">▼</span>
   </button>
-  <button class="mobile-filter-btn" id="mb-so-btn" onclick="toggleSoldOut(); updateMobileLabels();">
+  <button class="mobile-filter-btn" id="mb-so-btn" onclick="toggleSoldOut()">
     <span id="mb-so-label">Show Sold Out</span>
   </button>
 </div>
@@ -1339,6 +1339,7 @@ function applyFilters() {
   buildCatDD();
   buildSubDD();
   buildSizeDD();
+  if (typeof updateMobileLabels === 'function') updateMobileLabels();
 }
 
 // ── CARD RENDER ──────────────────────────────────────────────────
@@ -1511,9 +1512,15 @@ function navImg(pid, dir) {
 // ── SOLD OUT TOGGLE ──────────────────────────────────────────────
 function toggleSoldOut() {
   state.showSoldOut = !state.showSoldOut;
-  document.getElementById('sold-sw').classList.toggle('on', state.showSoldOut);
-  document.getElementById('sold-label').textContent = state.showSoldOut ? 'Hide Sold Out' : 'Show Sold Out';
+  const soCnt = state.soldOutSet.size;
+  const swEl = document.getElementById('sold-sw');
+  const lblEl = document.getElementById('sold-label');
+  if (swEl) swEl.classList.toggle('on', state.showSoldOut);
+  if (lblEl) lblEl.textContent = state.showSoldOut
+    ? (soCnt > 0 ? 'Hide Sold Out (' + soCnt + ')' : 'Hide Sold Out')
+    : (soCnt > 0 ? 'Show Sold Out (' + soCnt + ')' : 'Show Sold Out');
   applyFilters();
+  if (typeof updateMobileLabels === 'function') updateMobileLabels();
 }
 
 // ── ADMIN ────────────────────────────────────────────────────────
@@ -1553,6 +1560,7 @@ function adminToggle(pid) {
   if (state.soldOutSet.has(pid)) state.soldOutSet.delete(pid);
   else state.soldOutSet.add(pid);
   applyFilters();
+  if (typeof updateMobileLabels === 'function') updateMobileLabels();
 }
 function exportSoldOut() {
   const lines = ['PID,AZA_CODE,TITLE'];
@@ -1812,7 +1820,11 @@ function updateMobileLabels() {
   document.getElementById('mb-size-label').textContent = state.size ? 'Size: ' + state.size : 'Size';
   sizeBtn.classList.toggle('active', !!state.size);
 
-  document.getElementById('mb-so-label').textContent = state.showSoldOut ? 'Hide Sold Out' : 'Show Sold Out';
+  const soCnt2 = state.soldOutSet.size;
+  const soMbLabel = document.getElementById('mb-so-label');
+  if (soMbLabel) soMbLabel.textContent = state.showSoldOut
+    ? (soCnt2 > 0 ? 'Hide Sold Out (' + soCnt2 + ')' : 'Hide Sold Out')
+    : (soCnt2 > 0 ? 'Show Sold Out (' + soCnt2 + ')' : 'Show Sold Out');
   soBtn.classList.toggle('active', state.showSoldOut);
 
   const sortLabels = { '': 'Sort', 'price-asc': 'Price ↑', 'price-desc': 'Price ↓', 'discount-desc': 'Best Discount', 'title-asc': 'A–Z' };
