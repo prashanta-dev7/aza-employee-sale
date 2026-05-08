@@ -1435,18 +1435,20 @@ function callAPI(params, callback) {
   if (!SOLDOUT_API_URL || SOLDOUT_API_URL === 'PASTE_YOUR_WEB_APP_URL_HERE') return;
   const qs = Object.entries(params).map(([k,v]) => k + '=' + encodeURIComponent(v)).join('&');
   const url = SOLDOUT_API_URL + '?' + qs + '&_t=' + Date.now();
-  // Use XMLHttpRequest — handles Google's redirect chain better than fetch from file://
+  console.log('callAPI →', url);
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) {
+      console.log('callAPI status:', xhr.status, 'response:', xhr.responseText.substring(0, 300));
       if (xhr.status === 200) {
         try {
           const data = JSON.parse(xhr.responseText);
+          console.log('callAPI parsed:', data);
           if (callback) callback(data);
         } catch(e) { console.error('SoldOut API parse error:', e, xhr.responseText); }
       } else {
-        console.error('SoldOut API HTTP error:', xhr.status);
+        console.error('SoldOut API HTTP error:', xhr.status, xhr.responseText.substring(0, 300));
       }
     }
   };
