@@ -358,7 +358,6 @@ body {
   cursor: pointer;
 }
 .card:hover .card-hover-actions { opacity: 1; }
-.admin-active .card:hover .admin-mark-btn { display: flex; }
 .card:hover .img-arrows { opacity: 1; }
 
 .card-img-wrap {
@@ -469,31 +468,22 @@ body {
 }
 .admin-mark-btn {
   display: none;
-}
-.admin-active .admin-mark-btn {
-  display: flex;
-}
-.admin-mark-btn {
   width: 28px; height: 28px;
   background: white;
   border: 1px solid var(--border);
   border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
+  align-items: center; justify-content: center;
   cursor: pointer;
   font-size: 11px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   transition: all 0.15s;
   color: var(--text-muted);
 }
+.admin-active .card .admin-mark-btn {
+  display: flex;
+}
 .admin-mark-btn:hover { border-color: var(--red); color: var(--red); }
 .card.sold-out .admin-mark-btn { background: var(--red); border-color: var(--red); color: white; }
-.card.sold-out .card-img-wrap::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: rgba(255,255,255,0.6);
-  z-index: 1;
-  pointer-events: none;
-}
 .sold-stamp {
   display: none;
   position: absolute;
@@ -1238,7 +1228,7 @@ function renderGrid(items) {
         <div class="sold-stamp">Sold Out</div>
       </div>
       <div class="card-hover-actions">
-        <button class="admin-mark-btn" style="display:${state.adminMode?'flex':'none'}" onclick="toggleSoldOutCard(event,'${p.pid}','${p.aza_code}')">✕</button>
+        <button class="admin-mark-btn" onclick="toggleSoldOutCard(event,'${p.pid}','${p.aza_code}')">✕</button>
       </div>
       <div class="card-info">
         <div class="card-designer">${p.designer || '—'}</div>
@@ -1296,8 +1286,9 @@ function checkPw() {
     document.getElementById('admin-banner').classList.add('show');
     document.getElementById('tab-bar').classList.add('admin-offset');
     document.getElementById('filter-bar').classList.add('admin-offset');
+    applyFilters(); // render first, then add class so it persists
     document.getElementById('grid').classList.add('admin-active');
-    applyFilters();
+    console.log('Admin mode ON, grid has admin-active:', document.getElementById('grid').classList.contains('admin-active'));
   } else {
     document.getElementById('am-err').textContent = 'Incorrect password.';
   }
@@ -1313,6 +1304,7 @@ function exitAdmin() {
 }
 function toggleSoldOutCard(e, pid, aza) {
   e.stopPropagation();
+  console.log('toggleSoldOutCard called, pid:', pid, 'aza:', aza, 'adminMode:', state.adminMode);
   const key = aza || pid;
   const marking = !state.soldOutSet.has(key);
   // Optimistic UI update immediately
