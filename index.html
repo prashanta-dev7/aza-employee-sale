@@ -467,7 +467,7 @@ body {
   transition: opacity 0.2s;
 }
 .admin-mark-btn {
-  display: none;
+  display: flex;
   width: 28px; height: 28px;
   background: white;
   border: 1px solid var(--border);
@@ -479,8 +479,8 @@ body {
   transition: all 0.15s;
   color: var(--text-muted);
 }
-.admin-active .card .admin-mark-btn {
-  display: flex;
+.admin-active .card .card-hover-actions {
+  opacity: 1;
 }
 .admin-mark-btn:hover { border-color: var(--red); color: var(--red); }
 .card.sold-out .admin-mark-btn { background: var(--red); border-color: var(--red); color: white; }
@@ -967,7 +967,7 @@ const state = {
   soldOutSet: new Set()
 };
 
-function isSoldOut(p) { return state.soldOutSet.has(p.pid); }
+function isSoldOut(p) { return state.soldOutSet.has(p.aza_code) || state.soldOutSet.has(p.pid); }
 
 // Tab counts
 const PASS_PRODUCTS = PRODUCTS.filter(p => p.qc_status === 'Pass');
@@ -1331,7 +1331,7 @@ function toggleSoldOut() {
 }
 function exportSoldOut() {
   const rows = [['PID','AZA Code','Title','Designer','QC Status','Sale Price']];
-  PRODUCTS.filter(p => state.soldOutSet.has(p.pid)).forEach(p => {
+  PRODUCTS.filter(p => isSoldOut(p)).forEach(p => {
     rows.push([p.pid, p.aza_code, p.title, p.designer, p.qc_status, p.sale_price]);
   });
   const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
