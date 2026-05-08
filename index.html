@@ -358,6 +358,7 @@ body {
   cursor: pointer;
 }
 .card:hover .card-hover-actions { opacity: 1; }
+.admin-active .card:hover .admin-mark-btn { display: flex; }
 .card:hover .img-arrows { opacity: 1; }
 
 .card-img-wrap {
@@ -465,6 +466,12 @@ body {
   z-index: 5;
   opacity: 0;
   transition: opacity 0.2s;
+}
+.admin-mark-btn {
+  display: none;
+}
+.admin-active .admin-mark-btn {
+  display: flex;
 }
 .admin-mark-btn {
   width: 28px; height: 28px;
@@ -1289,6 +1296,7 @@ function checkPw() {
     document.getElementById('admin-banner').classList.add('show');
     document.getElementById('tab-bar').classList.add('admin-offset');
     document.getElementById('filter-bar').classList.add('admin-offset');
+    document.getElementById('grid').classList.add('admin-active');
     applyFilters();
   } else {
     document.getElementById('am-err').textContent = 'Incorrect password.';
@@ -1300,6 +1308,7 @@ function exitAdmin() {
   document.getElementById('admin-banner').classList.remove('show');
   document.getElementById('tab-bar').classList.remove('admin-offset');
   document.getElementById('filter-bar').classList.remove('admin-offset');
+  document.getElementById('grid').classList.remove('admin-active');
   applyFilters();
 }
 function toggleSoldOutCard(e, pid, aza) {
